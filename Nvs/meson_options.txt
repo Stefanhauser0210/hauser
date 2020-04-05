@@ -1,0 +1,7 @@
+option('include_dir', 
+       type: 'string', 
+       value: 'include')
+
+option('asio_include_dir', 
+       type: 'string', 
+       value: './../../../asio-1.12.2/include/')

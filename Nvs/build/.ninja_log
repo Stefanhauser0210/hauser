@@ -1,0 +1,8 @@
+# ninja log v5
+0	6714	1586109890	client@exe/src_client_main.cpp.o	97565f492499f43a
+4	6887	1586109957	client@exe/src_client_main.cpp.o	97565f492499f43a
+4	7134	1586109957	server@exe/src_server_main.cpp.o	2774aba195907095
+7	5250	1586110091	server@exe/src_server_main.cpp.o	2774aba195907095
+6	5271	1586110091	client@exe/src_client_main.cpp.o	97565f492499f43a
+5251	5474	1586110091	server	4472ac7558a4f8dd
+5271	5488	1586110091	client	882cc88e88f60795
