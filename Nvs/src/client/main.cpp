@@ -21,7 +21,13 @@ int main(int argc, char* argv[]) {
 
         for (auto c : input){
             strm << c << endl;
+            cout << c << endl;
         }
+
+        string data;
+        getline(strm, data);
+
+        cout << data << endl;
 
         strm.close();
     } else {
