@@ -5,14 +5,15 @@
 
 using namespace std;
 
+
 int main(int argc, char* argv[]) {
     CLI::App app("automata");
 
     string input{};
     app.add_option("INPUT", input, "The input")->required();
     
-    string toml{"automaton.toml"};
-    app.add_option("-f, --file", toml, "Automata file", true)->required();;
+    string file{"automaton.toml"};
+    app.add_option("-f, --file", file, "Automata file", true);
 
     bool debug{};
     app.add_flag("-d", debug, "debug"); 
@@ -21,4 +22,10 @@ int main(int argc, char* argv[]) {
     app.add_flag("-v", verbose, "verbose");
 
     CLI11_PARSE(app, argc, argv);
+
+    if (debug){
+        cout << "d" << input << " " << file << endl;
+    } else if (verbose) {
+        cout << "v" << input << " " << file << endl;
+    }
 }
