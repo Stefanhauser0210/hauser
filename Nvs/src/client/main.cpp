@@ -19,9 +19,10 @@ int main(int argc, char* argv[]) {
     tcp::iostream strm("127.0.0.1", "1113");
     if (strm) {
 
+        strm << input.size();
+
         for (auto c : input){
             strm << c << endl;
-            cout << c << endl;
         }
 
         string data;

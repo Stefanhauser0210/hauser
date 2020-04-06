@@ -21,15 +21,18 @@ int main() {
         while (true){
             tcp::iostream strm{acceptor.accept()};
                 
-                cout << "accepted" << endl;
                 string data{};
                 getline(strm, data);
-                cout << data << endl;
-                getline(strm, data);
-                cout << data << endl;
-                getline(strm, data);
-                cout << data << endl;
 
+                auto i = stoi(data);
+
+                for (int j{1}; j < i; j++){
+                    getline(strm, data);
+                    cout << data << endl;
+                    cout << "j : " << j << endl;
+                }
+
+                cout << "fertig" << endl;
                 strm << "accepted" << endl;
 
             
