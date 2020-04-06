@@ -8,10 +8,9 @@ using namespace std;
 int main(int argc, char* argv[]) {
     CLI::App app("automata");
 
-    vector<int> input{};
+    string input{};
     app.add_option("INPUT", input, "The input")->required();
     
-
     string toml{"automaton.toml"};
     app.add_option("-f, --file", toml, "Automata file", true)->required();;
 
