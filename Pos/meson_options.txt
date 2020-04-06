@@ -2,3 +2,7 @@ option('include_dir',
        type: 'string', 
        value: 'include')
 
+option('toml_include_dir', 
+       type: 'string', 
+       value: './../../../tomlplusplus-master/include/')
+

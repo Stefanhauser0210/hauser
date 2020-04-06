@@ -1,7 +1,10 @@
 #include <iostream>
 #include <thread>
+#include <vector>
 #include <stack>
 
+
+#include "toml++/toml.h"
 #include "CLI11.hpp"
 
 using namespace std;
@@ -14,7 +17,7 @@ class Atomaton {
     vector<string> stack_alphabet;
 
     string current_state;
-    stack<string> stack;
+    std::stack<string> stack;
 
     string file;
 

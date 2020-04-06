@@ -62,7 +62,7 @@ build PHONY: phony
 
 build hauser_pos@exe/src_main.cpp.o: cpp_COMPILER ../src/main.cpp
  DEPFILE = hauser_pos@exe/src_main.cpp.o.d
- ARGS = -Ihauser_pos@exe -I. -I.. -I../include -fdiagnostics-color=always -pipe -D_FILE_OFFSET_BITS=64 -Wall -Winvalid-pch -Wnon-virtual-dtor -Wextra -Wpedantic -Werror -std=c++17 -O0 -g -pthread
+ ARGS = -Ihauser_pos@exe -I. -I.. -I.././../../../tomlplusplus-master/include/ -I../include -fdiagnostics-color=always -pipe -D_FILE_OFFSET_BITS=64 -Wall -Winvalid-pch -Wnon-virtual-dtor -Wextra -Wpedantic -Werror -std=c++17 -O0 -g -pthread
 
 build hauser_pos: cpp_LINKER hauser_pos@exe/src_main.cpp.o
  LINK_ARGS = -Wl,--no-undefined -Wl,--as-needed -pthread
@@ -102,7 +102,7 @@ build dist: phony meson-dist
 # Suffix
 
 build meson-scan-build: CUSTOM_COMMAND PHONY
- COMMAND = /usr/bin/python3 /usr/bin/meson --internal scanbuild /home/stefan/Schreibtisch/hauser/hauser/Pos /home/stefan/Schreibtisch/hauser/hauser/Pos/build /usr/bin/python3 /usr/bin/meson -Dinclude_dir=include
+ COMMAND = /usr/bin/python3 /usr/bin/meson --internal scanbuild /home/stefan/Schreibtisch/hauser/hauser/Pos /home/stefan/Schreibtisch/hauser/hauser/Pos/build /usr/bin/python3 /usr/bin/meson -Dinclude_dir=include -Dtoml_include_dir=./../../../tomlplusplus-master/include/
  pool = console
 
 build scan-build: phony meson-scan-build
