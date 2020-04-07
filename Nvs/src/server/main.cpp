@@ -32,7 +32,7 @@ int main() {
 
                 cout << "länge " << i << endl;
 
-                for (int j{1}; j < i; j++){
+                for (int j{1}; j <= i; j++){
 
                     getline(strm, data);
 
