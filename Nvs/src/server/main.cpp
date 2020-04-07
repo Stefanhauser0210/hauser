@@ -49,7 +49,7 @@ int main() {
                         cout << "zeichen erkannt -" << endl;
                     } else if (data == "/"){
                         cout << "zeichen erkannt /" << endl;
-                    } else if (data == "X"){
+                    } else if (data == "*"){
                         cout << "zeichen erkannt *" << endl;
                     } else {
                         cout << "Fehler" << endl;
