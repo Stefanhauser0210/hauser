@@ -26,10 +26,20 @@ int main() {
 
                 auto i = stoi(data);
 
+                cout << "länge " << i << endl;
+
                 for (int j{1}; j < i; j++){
+                    
                     getline(strm, data);
-                    cout << data << endl;
-                    cout << "j : " << j << endl;
+
+                    char *temp = new char[data.size() + 1];
+                    strcpy(temp, data.c_str());
+
+                    cout << "zeichen " << temp[0] << endl;
+
+                    if (isdigit(temp[0])){
+                        cout << "ist nummer " << temp << endl;
+                    }
                 }
 
                 cout << "fertig" << endl;

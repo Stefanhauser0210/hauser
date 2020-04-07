@@ -19,7 +19,7 @@ int main(int argc, char* argv[]) {
     tcp::iostream strm("127.0.0.1", "1113");
     if (strm) {
 
-        strm << input.size();
+        strm << input.size() << endl;
 
         for (auto c : input){
             strm << c << endl;
