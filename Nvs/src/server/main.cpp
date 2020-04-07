@@ -43,9 +43,18 @@ int main() {
 
                     if (isdigit(temp[0])){
                         stk.push(stoi(data));
-                    } else if (data == "+" or data == "-" or data == "*" or data == "/"){
-                        cout << "zeichen erkannt: " << data << endl;
+                    } else if (data == "+"){
+                        cout << "zeichen erkannt +" << endl;
+                    } else if (data == "-"){
+                        cout << "zeichen erkannt -" << endl;
+                    } else if (data == "/"){
+                        cout << "zeichen erkannt /" << endl;
+                    } else if (data == "X"){
+                        cout << "zeichen erkannt *" << endl;
+                    } else {
+                        cout << "Fehler" << endl;
                     }
+
                 }
 
                 cout << "fertig" << endl;
