@@ -1,7 +1,7 @@
 [
   {
     "directory": "/home/stefan/Schreibtisch/hauser/hauser/Pos/build",
-    "command": "c++  -Ihauser_pos@exe -I. -I.. -I.././../../../tomlplusplus-master/include/ -I../include -fdiagnostics-color=always -pipe -D_FILE_OFFSET_BITS=64 -Wall -Winvalid-pch -Wnon-virtual-dtor -Wextra -Wpedantic -Werror -std=c++17 -O0 -g -pthread -MD -MQ 'hauser_pos@exe/src_main.cpp.o' -MF 'hauser_pos@exe/src_main.cpp.o.d' -o 'hauser_pos@exe/src_main.cpp.o' -c ../src/main.cpp",
+    "command": "g++-9  -Ihauser_pos@exe -I. -I.. -I.././../../../tomlplusplus-master/include/ -I../include -fdiagnostics-color=always -pipe -D_FILE_OFFSET_BITS=64 -Wall -Winvalid-pch -Wnon-virtual-dtor -Wextra -Wpedantic -Werror -std=c++17 -O0 -g -pthread -MD -MQ 'hauser_pos@exe/src_main.cpp.o' -MF 'hauser_pos@exe/src_main.cpp.o.d' -o 'hauser_pos@exe/src_main.cpp.o' -c ../src/main.cpp",
     "file": "../src/main.cpp"
   }
 ]

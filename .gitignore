@@ -30,3 +30,9 @@
 *.exe
 *.out
 *.app
+
+.Nvs.build.*
+.Pos.build.*
+
+/Nvs/build/*
+/Pos/build/*

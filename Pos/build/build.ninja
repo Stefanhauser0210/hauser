@@ -7,13 +7,13 @@ ninja_required_version = 1.5.1
 # Rules for compiling.
 
 rule cpp_COMPILER
- command = c++  $ARGS -MD -MQ $out -MF '$DEPFILE' -o $out -c $in
+ command = g++-9  $ARGS -MD -MQ $out -MF '$DEPFILE' -o $out -c $in
  deps = gcc
  depfile = $DEPFILE
  description = Compiling C++ object $out.
 
 rule cpp_PCH
- command = c++  $ARGS -MD -MQ $out -MF '$DEPFILE' -o $out -c $in
+ command = g++-9  $ARGS -MD -MQ $out -MF '$DEPFILE' -o $out -c $in
  deps = gcc
  depfile = $DEPFILE
  description = Precompiling header $in.
@@ -26,7 +26,7 @@ rule STATIC_LINKER
  description = Linking static target $out.
 
 rule cpp_LINKER
- command = c++ $ARGS -o $out $in $LINK_ARGS  $aliasing
+ command = g++-9 $ARGS -o $out $in $LINK_ARGS  $aliasing
  description = Linking target $out.
 
 
