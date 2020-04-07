@@ -1,6 +1,7 @@
 #include <iostream>
 #include <thread>
 #include <chrono>
+#include <stack>
 
 #include "asio.hpp"
 #include "CLI11.hpp"
@@ -9,6 +10,9 @@
 using namespace std;
 using namespace asio;
 using namespace asio::ip;
+
+
+stack<int> stk;
 
 int main() {
     try {
@@ -29,7 +33,7 @@ int main() {
                 cout << "länge " << i << endl;
 
                 for (int j{1}; j < i; j++){
-                    
+
                     getline(strm, data);
 
                     char *temp = new char[data.size() + 1];
@@ -38,7 +42,9 @@ int main() {
                     cout << "zeichen " << temp[0] << endl;
 
                     if (isdigit(temp[0])){
-                        cout << "ist nummer " << temp << endl;
+                        stk.push(stoi(data));
+                    } else if (data == "+" or data == "-" or data == "*" or data == "/"){
+                        cout << "zeichen erkannt: " << data << endl;
                     }
                 }
 
