@@ -32,6 +32,7 @@ int main(int argc, char* argv[]) {
 
         strm.close();
     } else {
+        
         cerr << "Connection failed" << endl;
         cerr << strm.error().message() << endl;
     }
