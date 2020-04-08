@@ -57,6 +57,8 @@ int main() {
 
                 }
 
+                cout << stk.size() << endl;
+
                 cout << "fertig" << endl;
                 strm << "accepted" << endl;
 
