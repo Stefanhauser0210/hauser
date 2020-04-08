@@ -4,7 +4,7 @@ project('hauser_pos', 'cpp',
 inc_dir = include_directories([get_option('include_dir'), 
                                get_option('toml_include_dir')])
 
-src = ['src/main.cpp']
+src = ['src/main.cpp', 'src/PD_Automaton.cpp']
 
 thread_dep = dependency('threads')
 

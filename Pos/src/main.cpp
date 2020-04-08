@@ -9,22 +9,6 @@
 
 using namespace std;
 
-class Atomaton {
-    string title;
-    vector<string> input_alphabet;
-    vector<string> states;
-    vector<string> accepted_states;
-    vector<string> stack_alphabet;
-
-    string current_state;
-    std::stack<string> stack;
-
-    string file;
-
-    Atomaton(string file_p) : file{file_p} {};
-
-};
-
 int main(int argc, char* argv[]) {
     CLI::App app("automata");
 
@@ -47,4 +31,5 @@ int main(int argc, char* argv[]) {
     } else if (verbose) {
         cout << "v" << input << " " << file << endl;
     }
+
 }

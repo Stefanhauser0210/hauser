@@ -1,4 +1,4 @@
-Build started at 2020-04-06T21:40:38.130954
+Build started at 2020-04-08T21:05:19.824750
 Main binary: /usr/bin/python3
 Python system: Linux
 The Meson build system
@@ -7,19 +7,9 @@ Source dir: /home/stefan/Schreibtisch/hauser/hauser/Pos
 Build dir: /home/stefan/Schreibtisch/hauser/hauser/Pos/build
 Build type: native build
 Project name: hauser_pos
-Sanity testing C++ compiler: g++-9
-Is cross compiler: False.
-Sanity check compiler command line: g++-9 /home/stefan/Schreibtisch/hauser/hauser/Pos/build/meson-private/sanitycheckcpp.cc -o /home/stefan/Schreibtisch/hauser/hauser/Pos/build/meson-private/sanitycheckcpp.exe
-Sanity check compile stdout:
-
------
-Sanity check compile stderr:
-
------
-Running test binary command: /home/stefan/Schreibtisch/hauser/hauser/Pos/build/meson-private/sanitycheckcpp.exe
 Native C++ compiler: g++-9 (gcc 9.2.1 "g++-9 (Ubuntu 9.2.1-17ubuntu1~18.04.1) 9.2.1 20191102")
 Build machine cpu family: x86_64
 Build machine cpu: x86_64
-Dependency threads found: YES
+Dependency threads found: YES (cached)
 Build targets in project: 1
 Found ninja-1.8.2 at /usr/bin/ninja

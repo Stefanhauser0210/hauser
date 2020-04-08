@@ -64,7 +64,11 @@ build hauser_pos@exe/src_main.cpp.o: cpp_COMPILER ../src/main.cpp
  DEPFILE = hauser_pos@exe/src_main.cpp.o.d
  ARGS = -Ihauser_pos@exe -I. -I.. -I.././../../../tomlplusplus-master/include/ -I../include -fdiagnostics-color=always -pipe -D_FILE_OFFSET_BITS=64 -Wall -Winvalid-pch -Wnon-virtual-dtor -Wextra -Wpedantic -Werror -std=c++17 -O0 -g -pthread
 
-build hauser_pos: cpp_LINKER hauser_pos@exe/src_main.cpp.o
+build hauser_pos@exe/src_PD_Automaton.cpp.o: cpp_COMPILER ../src/PD_Automaton.cpp
+ DEPFILE = hauser_pos@exe/src_PD_Automaton.cpp.o.d
+ ARGS = -Ihauser_pos@exe -I. -I.. -I.././../../../tomlplusplus-master/include/ -I../include -fdiagnostics-color=always -pipe -D_FILE_OFFSET_BITS=64 -Wall -Winvalid-pch -Wnon-virtual-dtor -Wextra -Wpedantic -Werror -std=c++17 -O0 -g -pthread
+
+build hauser_pos: cpp_LINKER hauser_pos@exe/src_main.cpp.o hauser_pos@exe/src_PD_Automaton.cpp.o
  LINK_ARGS = -Wl,--no-undefined -Wl,--as-needed -pthread
 
 # Test rules

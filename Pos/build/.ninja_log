@@ -1,3 +1,12 @@
 # ninja log v5
 0	5439	1586202061	hauser_pos@exe/src_main.cpp.o	64a707b3e5f8b3a7
 5440	5641	1586202061	hauser_pos	d0ad720befe7b63e
+1	6542	1586372311	hauser_pos@exe/src_main.cpp.o	64a707b3e5f8b3a7
+6542	6987	1586372311	hauser_pos	d0ad720befe7b63e
+0	973	1586372719	build.ninja	d842ed20c9877b17
+1	11	1586372719	hauser_pos@exe/src_PD_Automaton.cpp.o	2edf2f74bee1353b
+11	193	1586372720	hauser_pos	319d6652e90097db
+2	5250	1586372920	hauser_pos@exe/src_main.cpp.o	64a707b3e5f8b3a7
+5250	5463	1586372920	hauser_pos	319d6652e90097db
+0	5332	1586373051	hauser_pos@exe/src_main.cpp.o	64a707b3e5f8b3a7
+5332	5516	1586373051	hauser_pos	319d6652e90097db
