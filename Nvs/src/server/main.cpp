@@ -75,8 +75,13 @@ int main() {
                             stk.pop();
                             int op1 = stk.top();
                             stk.pop();
-                            cout << op1 / op2 << endl;
-                            stk.push(op1 / op2);
+                            if (op2 != 0){
+                                cout << op1 / op2 << endl;
+                                stk.push(op1 / op2);
+                            } else {
+                                errcode = 4;
+                                break;
+                            }
                         } else {
                             errcode = 2;
                             break;
@@ -116,7 +121,7 @@ int main() {
                     empty_stack(stk);
                     break;
                 case 2:
-                    strm << "ERROR: there is only one operand on the stack" << endl;
+                    strm << "ERROR: there are not enough operands on the stack" << endl;
                     errcode = 0;
                     empty_stack(stk);
                     break;
@@ -125,6 +130,11 @@ int main() {
                     errcode = 0;
                     empty_stack(stk);
                     break;
+                case 4:
+                strm << "ERROR: division by zero " << endl;
+                errcode = 0;
+                empty_stack(stk);
+                break;
             }
         }
 
