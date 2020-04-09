@@ -100,6 +100,10 @@ int main() {
 
                 }
 
+        if (stk.size() > 1){
+            errcode = 3;
+        }
+
         if (errcode == 0) {
             strm << stk.top() << endl;
             empty_stack(stk);
