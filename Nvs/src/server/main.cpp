@@ -21,6 +21,8 @@ int main() {
         stack<int> stk;
 
         int errcode{0};
+        size_t err_pos{0};
+        char err_symbol{' '};
 
         asio::io_context ctx;
         tcp::endpoint ep{ip::address_v4::any(), 1113};
@@ -54,6 +56,7 @@ int main() {
                             cout << op1 + op2 << endl;
                             stk.push(op1 + op2);
                         } else {
+                            err_pos = j;
                             errcode = 2;
                             break;
                         }
@@ -67,6 +70,7 @@ int main() {
                             stk.push(op1 - op2);
                         } else {
                             errcode = 2;
+                            err_pos = j;
                             break;
                         }
                     } else if (data == "/"){
@@ -76,14 +80,17 @@ int main() {
                             int op1 = stk.top();
                             stk.pop();
                             if (op2 != 0){
+                                cout << "op2 " << op2 << endl;
                                 cout << op1 / op2 << endl;
                                 stk.push(op1 / op2);
                             } else {
                                 errcode = 4;
+                                err_pos = j;
                                 break;
                             }
                         } else {
                             errcode = 2;
+                            err_pos = j;
                             break;
                         }
                     } else if (data == "*"){
@@ -96,10 +103,13 @@ int main() {
                             stk.push(op1 * op2);
                         } else {
                             errcode = 2;
+                            err_pos = j;
                             break;
                         }
                     } else {
                         errcode = 1;
+                        err_pos = j;
+                        err_symbol = temp[0];
                         break;
                     }
 
@@ -109,7 +119,7 @@ int main() {
             errcode = 3;
         }
 
-        if (stk.empty()){
+        if (stk.empty() and errcode == 0){
             errcode = 5;
         }
 
@@ -120,12 +130,12 @@ int main() {
 
             switch (errcode) {
                 case 1:
-                    strm << "ERROR: invalid character " << endl;
+                    strm << "ERROR: invalid character '" << err_symbol << "' at " << err_pos << endl;
                     errcode = 0;
                     empty_stack(stk);
                     break;
                 case 2:
-                    strm << "ERROR: there are not enough operands on the stack" << endl;
+                    strm << "ERROR: there are not enough operands on the stack. Position: " << err_pos << endl;
                     errcode = 0;
                     empty_stack(stk);
                     break;
@@ -135,7 +145,7 @@ int main() {
                     empty_stack(stk);
                     break;
                 case 4:
-                    strm << "ERROR: division by zero " << endl;
+                    strm << "ERROR: division by zero. Position: " << err_pos << endl;
                     errcode = 0;
                     empty_stack(stk);
                     break;
