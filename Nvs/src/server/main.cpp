@@ -6,13 +6,9 @@
 #include "asio.hpp"
 #include "CLI11.hpp"
 
-
 using namespace std;
 using namespace asio;
 using namespace asio::ip;
-
-
-
 
 int main() {
     try {
@@ -83,7 +79,7 @@ int main() {
 
                 }
 
-                strm << "accepted" << endl;
+                strm << stk.top() << endl;
 
             
         }
