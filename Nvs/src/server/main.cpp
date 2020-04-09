@@ -109,6 +109,10 @@ int main() {
             errcode = 3;
         }
 
+        if (stk.empty()){
+            errcode = 5;
+        }
+
         if (errcode == 0) {
             strm << stk.top() << endl;
             empty_stack(stk);
@@ -131,10 +135,15 @@ int main() {
                     empty_stack(stk);
                     break;
                 case 4:
-                strm << "ERROR: division by zero " << endl;
-                errcode = 0;
-                empty_stack(stk);
-                break;
+                    strm << "ERROR: division by zero " << endl;
+                    errcode = 0;
+                    empty_stack(stk);
+                    break;
+                case 5:
+                    strm << "ERROR: stack is empty" << endl;
+                    errcode = 0;
+                    empty_stack(stk);
+                    break;
             }
         }
 
@@ -142,7 +151,7 @@ int main() {
         }
 
     } catch (...){
-        cerr << "Error accured" << endl;
+        cerr << "ERROR: unable to start server " << endl;
     }
 }
 
