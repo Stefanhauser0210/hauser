@@ -14,6 +14,8 @@ int main() {
     try {
         stack<int> stk;
 
+        int errcode{0};
+
         asio::io_context ctx;
         tcp::endpoint ep{ip::address_v4::any(), 1113};
         tcp::acceptor acceptor {ctx, ep};
@@ -45,6 +47,9 @@ int main() {
                             stk.pop();
                             cout << op1 + op2 << endl;
                             stk.push(op1 + op2);
+                        } else {
+                            errcode = 2;
+                            break;
                         }
                     } else if (data == "-"){
                         if (stk.size() >= 2){
@@ -74,12 +79,25 @@ int main() {
                             stk.push(op1 * op2);
                         }
                     } else {
-                        cout << "Fehler" << endl;
+                        errcode = 1;
+                        break;
                     }
 
                 }
 
-                strm << stk.top() << endl;
+        if (errcode == 0) {
+
+            strm << stk.top() << endl;
+
+        } else {
+
+            switch (errcode) {
+                case 1:
+                    strm << "ERROR: invalid character " << endl;
+                    errcode = 0;
+                    break;
+            }
+        }
 
             
         }
