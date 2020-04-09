@@ -10,6 +10,12 @@ using namespace std;
 using namespace asio;
 using namespace asio::ip;
 
+void empty_stack(stack<int> &stk){
+    while (!stk.empty()){
+        stk.pop();
+    }
+}
+
 int main() {
     try {
         stack<int> stk;
@@ -59,6 +65,9 @@ int main() {
                             stk.pop();
                             cout << op1 - op2 << endl;
                             stk.push(op1 - op2);
+                        } else {
+                            errcode = 2;
+                            break;
                         }
                     } else if (data == "/"){
                         if (stk.size() >= 2){
@@ -68,6 +77,9 @@ int main() {
                             stk.pop();
                             cout << op1 / op2 << endl;
                             stk.push(op1 / op2);
+                        } else {
+                            errcode = 2;
+                            break;
                         }
                     } else if (data == "*"){
                         if (stk.size() >= 2){
@@ -77,6 +89,9 @@ int main() {
                             stk.pop();
                             cout << op1 * op2 << endl;
                             stk.push(op1 * op2);
+                        } else {
+                            errcode = 2;
+                            break;
                         }
                     } else {
                         errcode = 1;
@@ -86,15 +101,25 @@ int main() {
                 }
 
         if (errcode == 0) {
-
             strm << stk.top() << endl;
-
+            empty_stack(stk);
         } else {
 
             switch (errcode) {
                 case 1:
                     strm << "ERROR: invalid character " << endl;
                     errcode = 0;
+                    empty_stack(stk);
+                    break;
+                case 2:
+                    strm << "ERROR: there is only one operand on the stack" << endl;
+                    errcode = 0;
+                    empty_stack(stk);
+                    break;
+                case 3:
+                    strm << "ERROR: there are more then one character left on the stack " << endl;
+                    errcode = 0;
+                    empty_stack(stk);
                     break;
             }
         }
