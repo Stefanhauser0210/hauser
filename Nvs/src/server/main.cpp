@@ -12,10 +12,12 @@ using namespace asio;
 using namespace asio::ip;
 
 
-stack<int> stk;
+
 
 int main() {
     try {
+        stack<int> stk;
+
         asio::io_context ctx;
         tcp::endpoint ep{ip::address_v4::any(), 1113};
         tcp::acceptor acceptor {ctx, ep};
@@ -30,8 +32,6 @@ int main() {
 
                 auto i = stoi(data);
 
-                cout << "länge " << i << endl;
-
                 for (int j{1}; j <= i; j++){
 
                     getline(strm, data);
@@ -39,27 +39,50 @@ int main() {
                     char *temp = new char[data.size() + 1];
                     strcpy(temp, data.c_str());
 
-                    cout << "zeichen " << temp[0] << endl;
-
                     if (isdigit(temp[0])){
                         stk.push(stoi(data));
                     } else if (data == "+"){
-                        cout << "zeichen erkannt +" << endl;
+                        if (stk.size() >= 2){
+                            int op2 = stk.top();
+                            stk.pop();
+                            int op1 = stk.top();
+                            stk.pop();
+                            cout << op1 + op2 << endl;
+                            stk.push(op1 + op2);
+                        }
                     } else if (data == "-"){
-                        cout << "zeichen erkannt -" << endl;
+                        if (stk.size() >= 2){
+                            int op2 = stk.top();
+                            stk.pop();
+                            int op1 = stk.top();
+                            stk.pop();
+                            cout << op1 - op2 << endl;
+                            stk.push(op1 - op2);
+                        }
                     } else if (data == "/"){
-                        cout << "zeichen erkannt /" << endl;
+                        if (stk.size() >= 2){
+                            int op2 = stk.top();
+                            stk.pop();
+                            int op1 = stk.top();
+                            stk.pop();
+                            cout << op1 / op2 << endl;
+                            stk.push(op1 / op2);
+                        }
                     } else if (data == "*"){
-                        cout << "zeichen erkannt *" << endl;
+                        if (stk.size() >= 2){
+                            int op2 = stk.top();
+                            stk.pop();
+                            int op1 = stk.top();
+                            stk.pop();
+                            cout << op1 * op2 << endl;
+                            stk.push(op1 * op2);
+                        }
                     } else {
                         cout << "Fehler" << endl;
                     }
 
                 }
 
-                cout << stk.size() << endl;
-
-                cout << "fertig" << endl;
                 strm << "accepted" << endl;
 
             
