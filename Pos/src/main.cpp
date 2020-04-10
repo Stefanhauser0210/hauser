@@ -15,7 +15,7 @@ int main(int argc, char* argv[]) {
     string input{};
     app.add_option("INPUT", input, "The input")->required();
     
-    string file{"automaton.toml"};
+    string file{"./../automaton.toml"};
     app.add_option("-f, --file", file, "Automata file", true);
 
     bool debug{};
@@ -32,4 +32,7 @@ int main(int argc, char* argv[]) {
         cout << "v" << input << " " << file << endl;
     }
 
+    toml::table tab = toml::parse_file(file);
+
+    cout << tab["title"] << endl;
 }
