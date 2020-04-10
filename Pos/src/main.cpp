@@ -26,6 +26,7 @@ int main(int argc, char* argv[]) {
 
     CLI11_PARSE(app, argc, argv);
 
+    //Testen der Flags
     if (debug){
         cout << "d" << input << " " << file << endl;
     } else if (verbose) {
@@ -34,10 +35,11 @@ int main(int argc, char* argv[]) {
 
 
     //toml-parsen Tests
-    toml::table tab = toml::parse_file(file);
+    auto tab = toml::parse_file(file);
 
     cout << tab["title"] << endl;
 
+    //Zugriff auf Table definition
     cout << tab["definitions"] << endl;
 
     auto definitions = tab["definitions"];
@@ -49,9 +51,16 @@ int main(int argc, char* argv[]) {
     auto e = definitions["E"];
     cout << e << endl;
 
+    //Zugriff auf Array
     auto e_array = e.as_array();
 
     for (const auto& k : *e_array){
         cout << k.as_string()->get() << endl;
     }
+
+    //Zugriff auf Array of Tables (trasition)
+    auto transitions = tab["table"];
+
+    cout << transitions << endl;
+
 }

@@ -8,29 +8,28 @@ K = ["_", "0", "1"]
 Z = ["A", "B"]       
 k0 = "_"             
 
-[table]
-[[transition]]
+[[table.transition]]
 z = "A"
 k0 = "_"
 e = "0"
 z_new = "B"
 k_new = "_"
 
-[[transition]]
+[[table.transition]]
 z = "A"
 k0 = "_"
 e = "1"
 z_new = "A"
 k_new = "1_"
 
-[[transition]]
+[[table.transition]]
 z = "A"
 k0 = "1"
 e = "0"
 z_new = "A"
 k_new = ""
 
-[[transition]]
+[[table.transition]]
 z = "A"
 k0 = "1"
 e = "1"
@@ -38,30 +37,31 @@ z_new = "A"
 k_new = "11"
 
 # B
-[[transition]]
+[[table.transition]]
 z = "B"
 k0 = "_"
 e = "0"
 z_new = "B"
 k_new = "0_"
 
-[[transition]]
+[[table.transition]]
 z = "B"
 k0 = "_"
 e = "1"
 z_new = "A"
 k_new = "_"
 
-[[transition]]
+[[table.transition]]
 z = "B"
 k0 = "0"
 e = "0"
 z_new = "B"
 k_new = "00"
 
-[[transition]]
+[[table.transition]]
 z = "B"
 k0 = "0"
 e = "1"
 z_new = "B"
 k_new = ""
+
