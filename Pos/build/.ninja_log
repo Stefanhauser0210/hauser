@@ -1,7 +1,0 @@
-# ninja log v5
-0	5447	1586728710	hauser_pos@exe/src_main.cpp.o	64a707b3e5f8b3a7
-1	2902	1586728800	hauser_pos@exe/src_PD_Automaton.cpp.o	2edf2f74bee1353b
-2902	3190	1586728800	hauser_pos	319d6652e90097db
-2	3205	1586729332	hauser_pos@exe/src_PD_Automaton.cpp.o	2edf2f74bee1353b
-1	5257	1586730104	hauser_pos@exe/src_main.cpp.o	64a707b3e5f8b3a7
-5257	5529	1586730104	hauser_pos	319d6652e90097db
