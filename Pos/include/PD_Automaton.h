@@ -1,9 +1,10 @@
+#pragma once
+
 #include <string>
 #include <vector>
 #include <memory>
 #include <stack>
 
-#include "PD_Automaton.cpp"
 
 class PD_Automaton {
 
