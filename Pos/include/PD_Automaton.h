@@ -11,8 +11,8 @@ class PD_Automaton {
 private:
     typedef struct Transition {
         Transition(std::string next_state, std::string write_back) : next_state_{next_state}, write_back_{write_back} {}
-        std::string next_state_;
-        std::string write_back_;
+        std::string next_state;
+        std::string write_back;
     } Transition;
     
     PD_Automaton() = default;  
@@ -22,15 +22,15 @@ private:
     void transitionTo(const std::shared_ptr<Transition>);
     bool next(char);
 
-    std::string title_;
-    std::vector<char> input_alphabet_;
-    std::vector<std::string> states_;
-    std::vector<std::string> accepted_states_;
-    std::vector<char> stack_alphabet_;
+    std::string title;
+    std::vector<char> input_alphabet;
+    std::vector<std::string> states;
+    std::vector<std::string> accepted_states;
+    std::vector<char> stack_alphabet;
 
-    std::shared_ptr<Transition>* transition_table_;
-    std::string current_state_;
-    std::stack<char> stack_;
+    std::shared_ptr<Transition>* transition_table;
+    std::string current_state;
+    std::stack<char> stack;
 
 public:
     static PD_Automaton load(const std::string& file); 
