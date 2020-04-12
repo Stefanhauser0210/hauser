@@ -53,7 +53,15 @@ PD_Automaton PD_Automaton::load(const std::string& file) {
         automaton.accepted_states.push_back(accepted_state);
     }
 
+    auto z0_node = definitions["z0"];
+    auto z0 = z0_node.as_string()->get();
+    automaton.current_state = z0;
 
+    auto k0_node = definitions["k0"];
+    auto k0 = k0_node.as_string()->get();
+    for (const char& c : k0) {
+        automaton.stack.push(c);
+    }
 
     return automaton;
 
