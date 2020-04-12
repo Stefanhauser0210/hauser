@@ -10,7 +10,7 @@
 class PD_Automaton {
 private:
     typedef struct Transition {
-        Transition(std::string next_state, std::string write_back) : next_state_{next_state}, write_back_{write_back} {}
+        Transition(std::string next_state, std::string write_back) : next_state{next_state}, write_back{write_back} {}
         std::string next_state;
         std::string write_back;
     } Transition;

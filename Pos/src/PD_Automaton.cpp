@@ -11,7 +11,7 @@ PD_Automaton::PD_Automaton([[maybe_unused]] const PD_Automaton& other) {}
 
 
 PD_Automaton::~PD_Automaton() {
-    delete[] transition_table_;
+    delete[] transition_table;
 }
 
 
@@ -21,21 +21,21 @@ PD_Automaton PD_Automaton::load(const std::string& file) {
     PD_Automaton automaton;
 
     auto title = config["title"].as_string()->get();
-    automaton.title_ = title;
+    automaton.title = title;
 
     auto definitions = config["definitions"];
 
     auto E_node = definitions["E"];
     auto E = E_node.as_array(); 
     for (const auto& node : *E) {
-        auto input_character = node.as_string->get();
+        auto input_character = node.as_string()->get();
         automaton.input_alphabet.push_back(input_character[0]);
     }
 
     auto K_node = definitions["K"];
     auto K = K_node.as_array();
     for (const auto& node : *K) {
-        auto input_character = node.as_string->get();
+        auto input_character = node.as_string()->get();
         automaton.stack_alphabet.push_back(input_character[0]);
     }
 
@@ -54,7 +54,7 @@ PD_Automaton PD_Automaton::load(const std::string& file) {
     }
 
 
-    
+
     return automaton;
 
 
