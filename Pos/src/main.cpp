@@ -3,7 +3,7 @@
 #include <vector>
 #include <stack>
 
-
+#include "PD_Automaton.h"
 #include "toml++/toml.h"
 #include "CLI11.hpp"
 
@@ -26,6 +26,7 @@ int main(int argc, char* argv[]) {
 
     CLI11_PARSE(app, argc, argv);
 
+/*
     //Testen der Flags
     if (debug){
         cout << "d" << input << " " << file << endl;
@@ -62,5 +63,23 @@ int main(int argc, char* argv[]) {
     auto transitions = tab["table"];
 
     cout << transitions << endl;
+
+    */
+
+   PD_Automaton automaton{PD_Automaton::load(file)};
+
+   cout << automaton.title << endl;
+
+   for (auto c : automaton.states){
+       cout << c << endl;
+   }
+
+      for (auto c : automaton.input_alphabet){
+       cout << c << endl;
+   }
+
+   for (auto c : automaton.stack_alphabet){
+       cout << c << endl;
+   }
 
 }

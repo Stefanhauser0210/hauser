@@ -63,6 +63,15 @@ PD_Automaton PD_Automaton::load(const std::string& file) {
         automaton.stack.push(c);
     }
 
+    /*
+    auto table_node = config["table"];
+    auto table = table_node.as_table();
+
+    automaton.transition_table_ = new std::shared_ptr<Transition>[automaton.states.size() * automaton.stack_alphabet.size() * (automaton.input_alphabet.size() + 1)];
+
+    auto transition_node = table["transition"];
+*/
+
     return automaton;
 
 

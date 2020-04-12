@@ -8,7 +8,7 @@
 
 
 class PD_Automaton {
-private:
+public:
     typedef struct Transition {
         Transition(std::string next_state, std::string write_back) : next_state{next_state}, write_back{write_back} {}
         std::string next_state;
@@ -32,12 +32,15 @@ private:
     std::string current_state;
     std::stack<char> stack;
 
-public:
+
     static PD_Automaton load(const std::string& file); 
 
     PD_Automaton(const PD_Automaton&); 
     virtual ~PD_Automaton();  
 
     bool check(const std::string&);
-    std::string getTitle() const noexcept;
+    std::string getTitle();
+
+private:
+
 };
