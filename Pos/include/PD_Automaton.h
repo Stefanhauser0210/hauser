@@ -30,7 +30,7 @@ public:
 
     std::shared_ptr<Transition>* transition_table_;
     std::string current_state;
-    std::stack<char> stack;
+    std::stack<char> stack_;
 
 
     static PD_Automaton load(const std::string& file); 

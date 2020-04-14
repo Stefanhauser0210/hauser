@@ -60,7 +60,7 @@ PD_Automaton PD_Automaton::load(const std::string& file) {
     auto k0_node = definitions["k0"];
     auto k0 = k0_node.as_string()->get();
     for (const char& c : k0) {
-        automaton.stack.push(c);
+        automaton.stack_.push(c);
     }
 
     
@@ -120,7 +120,13 @@ std::string PD_Automaton::getTitle() {
     return title;
 }
 
-const std::shared_ptr<Automaton::Transition>& PD_Automaton::getTransition(std::string current_state, char stack_token, char input_token) const {
+const std::shared_ptr<PD_Automaton::Transition>& PD_Automaton::getTransition(std::string current_state, char stack_token, char input_token) const {
     return transition_table_[transitionTableIndex(current_state, stack_token, input_token)];
+}
+
+void PD_Automaton::transitionTo(const std::shared_ptr<Transition> transition) {
+    current_state = transition->next_state;
+    for (const auto& character : transition->write_back)
+        PD_Automaton::stack_.push(character);
 }
 
