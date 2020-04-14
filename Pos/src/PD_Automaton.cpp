@@ -130,3 +130,39 @@ void PD_Automaton::transitionTo(const std::shared_ptr<Transition> transition) {
         PD_Automaton::stack_.push(character);
 }
 
+bool PD_Automaton::next(char token) {
+    auto k0{stack_.top()};
+    auto transition = this->getTransition(current_state, k0, token);
+
+    if (!transition) {
+        transition = this->getTransition(current_state, k0, 0);  // 0 -> empty character
+
+        if (!transition) {  
+            return false;
+        }
+
+        transitionTo(transition);
+
+        return next(token);
+    }
+
+    stack_.pop();
+
+    transitionTo(transition);
+
+    return true;
+}
+
+bool PD_Automaton::check(const std::string& word) {
+    bool accepted{true};
+    for (const auto& token : word) {
+        if (!(accepted = next(token)))
+            break;
+    }
+
+    accepted = accepted && (std::find(accepted_states.begin(), accepted_states.end(), current_state) != accepted_states.end());
+
+    return accepted;
+}
+
+

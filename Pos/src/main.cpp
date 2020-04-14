@@ -68,19 +68,7 @@ int main(int argc, char* argv[]) {
 
    PD_Automaton automaton{PD_Automaton::load(file)};
 
-   cout << automaton.title << endl;
+    bool accepted{automaton.check(input)};
 
-   for (auto c : automaton.states){
-       cout << c << endl;
-   }
-
-      for (auto c : automaton.input_alphabet){
-       cout << c << endl;
-   }
-
-   for (auto c : automaton.stack_alphabet){
-       cout << c << endl;
-   }
-
-
+    cout << boolalpha << accepted << endl;
 }
