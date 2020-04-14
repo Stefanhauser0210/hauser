@@ -138,16 +138,18 @@ bool PD_Automaton::next(char token) {
         transition = this->getTransition(current_state, k0, 0);  // 0 -> empty character
 
         if (!transition) {  
-            return false;
+            std::cout << "Keine Transition für " << current_state << " " << k0 << " " << token << std::endl;
+            return false;           
         }
 
+        std::cout << "Transition für 0 " << current_state << " " << k0 << " " << token << std::endl;
         transitionTo(transition);
 
         return next(token);
     }
 
     stack_.pop();
-
+    std::cout << "Transition " << current_state << " " << k0 << " " << token << std::endl;
     transitionTo(transition);
 
     return true;
