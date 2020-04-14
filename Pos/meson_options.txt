@@ -6,3 +6,8 @@ option('toml_include_dir',
        type: 'string', 
        value: './../../../tomlplusplus-master/include/')
 
+option('spdlog_include_dir', 
+       type: 'string', 
+       value: './../../../spdlog-1.x/include')
+
+

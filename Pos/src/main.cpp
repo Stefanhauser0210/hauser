@@ -6,10 +6,15 @@
 #include "PD_Automaton.h"
 #include "toml++/toml.h"
 #include "CLI11.hpp"
+#include "spdlog/spdlog.h"
+#include "Logger.h"
 
 using namespace std;
 
 int main(int argc, char* argv[]) {
+    Logger::logger->set_level(spdlog::level::info);
+    Logger::debug_logger->set_level(spdlog::level::off);
+
     CLI::App app("automata");
 
     string input{};
@@ -24,51 +29,24 @@ int main(int argc, char* argv[]) {
     bool verbose{};
     app.add_flag("-v", verbose, "verbose");
 
+    if (debug){
+        Logger::debug_logger->set_level(spdlog::level::trace);
+    }
+
+    if (verbose){
+        Logger::logger->set_level(spdlog::level::trace);
+    }
+
     CLI11_PARSE(app, argc, argv);
 
-/*
-    //Testen der Flags
-    if (debug){
-        cout << "d" << input << " " << file << endl;
-    } else if (verbose) {
-        cout << "v" << input << " " << file << endl;
-    }
-
-
-    //toml-parsen Tests
-    auto tab = toml::parse_file(file);
-
-    cout << tab["title"] << endl;
-
-    //Zugriff auf Table definition
-    cout << tab["definitions"] << endl;
-
-    auto definitions = tab["definitions"];
-    cout << definitions << endl;
-
-    auto z0 = definitions["z0"];
-    cout << z0 << endl;
-
-    auto e = definitions["E"];
-    cout << e << endl;
-
-    //Zugriff auf Array
-    auto e_array = e.as_array();
-
-    for (const auto& k : *e_array){
-        cout << k.as_string()->get() << endl;
-    }
-
-    //Zugriff auf Array of Tables (trasition)
-    auto transitions = tab["table"];
-
-    cout << transitions << endl;
-
-    */
 
    PD_Automaton automaton{PD_Automaton::load(file)};
 
     bool accepted{automaton.check(input)};
 
-    cout << boolalpha << accepted << endl;
+    if (accepted){
+        cout << "accepted" << endl;
+    } else {
+        cout << "rejected" << endl;
+    }
 }
