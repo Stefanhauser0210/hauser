@@ -28,7 +28,7 @@ public:
     std::vector<std::string> accepted_states;
     std::vector<char> stack_alphabet;
 
-    std::shared_ptr<Transition>* transition_table;
+    std::shared_ptr<Transition>* transition_table_;
     std::string current_state;
     std::stack<char> stack;
 

@@ -11,7 +11,7 @@ PD_Automaton::PD_Automaton([[maybe_unused]] const PD_Automaton& other) {}
 
 
 PD_Automaton::~PD_Automaton() {
-    delete[] transition_table;
+    delete[] transition_table_;
 }
 
 
@@ -63,16 +63,64 @@ PD_Automaton PD_Automaton::load(const std::string& file) {
         automaton.stack.push(c);
     }
 
-    /*
+    
     auto table_node = config["table"];
     auto table = table_node.as_table();
 
     automaton.transition_table_ = new std::shared_ptr<Transition>[automaton.states.size() * automaton.stack_alphabet.size() * (automaton.input_alphabet.size() + 1)];
 
-    auto transition_node = table["transition"];
-*/
+    auto transition_node = (*table)["transition"];
+    auto transitions = transition_node.as_array();
+
+    for (const auto& t : *transitions) {
+        auto transition_table = t.as_table();
+
+        auto z_node = (*transition_table)["z"];
+        auto z = z_node.as_string()->get();
+
+        auto transition_k0_node = (*transition_table)["k0"];
+        auto transition_k0 = transition_k0_node.as_string()->get();
+
+        auto e_node = (*transition_table)["e"];
+        auto e = e_node.as_string()->get();
+
+        auto z_new_node = (*transition_table)["z_new"];
+        auto z_new = z_new_node.as_string()->get();
+
+        auto k_new_node = (*transition_table)["k_new"];
+        auto k_new = k_new_node.as_string()->get();
+
+        auto transition_index{automaton.transitionTableIndex(z, transition_k0[0], e[0])};
+        automaton.transition_table_[transition_index] = std::make_shared<Transition>(z_new, k_new);
+        
+    }
 
     return automaton;
 
 
 }
+
+size_t PD_Automaton::transitionTableIndex(std::string current_state, char stack_token, char input_token) const {
+    auto state_index_it{std::find(states.begin(), states.end(), current_state)};
+    auto state_index{std::distance(states.begin(), state_index_it)};
+
+    auto stack_character_index_it{std::find(stack_alphabet.begin(), stack_alphabet.end(), stack_token)};
+    auto stack_character_index{std::distance(stack_alphabet.begin(), stack_character_index_it)};
+
+    auto input_character_index_it{std::find(input_alphabet.begin(), input_alphabet.end(), input_token)};
+    auto input_character_index = std::distance(input_alphabet.begin(), input_character_index_it);
+
+    size_t row{state_index * stack_alphabet.size() + stack_character_index};
+    size_t index{row * (input_alphabet.size() + 1) + input_character_index};
+
+    return index;
+}
+
+std::string PD_Automaton::getTitle() {
+    return title;
+}
+
+const std::shared_ptr<Automaton::Transition>& PD_Automaton::getTransition(std::string current_state, char stack_token, char input_token) const {
+    return transition_table_[transitionTableIndex(current_state, stack_token, input_token)];
+}
+
