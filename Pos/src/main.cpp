@@ -39,7 +39,7 @@ int main(int argc, char* argv[]) {
 
     CLI11_PARSE(app, argc, argv);
 
-    Logger::logger->info("Parsing file {}", file);
+   Logger::logger->info("Parsing file {}", file);
    PD_Automaton automaton{PD_Automaton::load(file)};
 
     bool accepted{automaton.check(input)};
