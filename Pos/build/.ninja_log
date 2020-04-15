@@ -1,0 +1,5 @@
+# ninja log v5
+2	13087	1586962384	hauser_pos@exe/src_Logger.cpp.o	a208dddb1a8be812
+1	13753	1586962384	hauser_pos@exe/src_PD_Automaton.cpp.o	4ec779dc08217c50
+0	15415	1586962386	hauser_pos@exe/src_main.cpp.o	d21eeb25c2bd7240
+15415	16597	1586962387	hauser_pos	cfa7c01fba1c4706

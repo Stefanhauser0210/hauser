@@ -139,17 +139,27 @@ PD_Automaton PD_Automaton::load(const std::string& file) {
 }
 
 size_t PD_Automaton::transitionTableIndex(std::string current_state, char stack_token, char input_token) const {
+    Logger::debug_logger->info("Calculating transition table index for: z = '{}', k0 = '{}', e = '{}'", current_state, stack_token, input_token);
+
+    Logger::debug_logger->info("Getting index of z (current state) in list of states");
     auto state_index_it{std::find(states.begin(), states.end(), current_state)};
     auto state_index{std::distance(states.begin(), state_index_it)};
+    Logger::debug_logger->info("Index of z (current state) in list of states is {}", state_index);
 
+    Logger::debug_logger->info("Getting index of k (stack token) in stack alphabet");
     auto stack_character_index_it{std::find(stack_alphabet.begin(), stack_alphabet.end(), stack_token)};
     auto stack_character_index{std::distance(stack_alphabet.begin(), stack_character_index_it)};
+    Logger::debug_logger->info("Index of k (stack token) in stack alphabet is {}", stack_character_index);
 
+    Logger::debug_logger->info("Getting index of e (input token) in input alphabet");
     auto input_character_index_it{std::find(input_alphabet.begin(), input_alphabet.end(), input_token)};
     auto input_character_index = std::distance(input_alphabet.begin(), input_character_index_it);
+    Logger::debug_logger->info("Index of e (input token) in input alphabet is {}", input_character_index);
 
     size_t row{state_index * stack_alphabet.size() + stack_character_index};
     size_t index{row * (input_alphabet.size() + 1) + input_character_index};
+
+    Logger::debug_logger->info("Calculated index is {}", index);
 
     return index;
 }
@@ -163,6 +173,7 @@ const std::shared_ptr<PD_Automaton::Transition>& PD_Automaton::getTransition(std
 }
 
 void PD_Automaton::transitionTo(const std::shared_ptr<Transition> transition) {
+    Logger::debug_logger->info("Transitioning from {} -> {}, stack word: {}", current_state, transition->next_state, transition->write_back);
     current_state = transition->next_state;
     for (const auto& character : transition->write_back) {
         stack_.push(character);
@@ -173,24 +184,26 @@ void PD_Automaton::transitionTo(const std::shared_ptr<Transition> transition) {
 
 bool PD_Automaton::next(char token) {
     auto k0{stack_.top()};
+    Logger::debug_logger->info("Getting transition for: e = '{}', z = '{}', k0 = '{}'", token, current_state, k0);
     auto transition = this->getTransition(current_state, k0, token);
 
     if (!transition) {
+        Logger::debug_logger->info("No transition available, trying transition for: e = '', z = {}, k0 = {}", current_state, k0);
         transition = this->getTransition(current_state, k0, 0);  // 0 -> empty character
 
         if (!transition) {  
-            std::cout << "Keine Transition für " << current_state << " " << k0 << " " << token << std::endl;
+            Logger::debug_logger->info("No transition available", current_state, k0);
             return false;           
         }
 
-        std::cout << "Transition für 0 " << current_state << " " << k0 << " " << token << std::endl;
+        Logger::debug_logger->info("Transitioning to new state (0)");
         transitionTo(transition);
 
         return next(token);
     }
 
     stack_.pop();
-    std::cout << "Transition " << current_state << " " << k0 << " " << token << std::endl;
+    Logger::debug_logger->info("Transitioning to new state");
     transitionTo(transition);
 
     return true;
@@ -199,6 +212,7 @@ bool PD_Automaton::next(char token) {
 bool PD_Automaton::check(const std::string& word) {
     bool accepted{true};
     for (const auto& token : word) {
+        Logger::debug_logger->info("Current state: {}", current_state);
         if (!(accepted = next(token)))
             break;
     }
