@@ -46,7 +46,10 @@ PD_Automaton PD_Automaton::load(const std::string& file) {
 
     Logger::debug_logger->info("Checking property 'K' (stack alphabet)");
     auto K_node = definitions["K"];
+    if (!K_node) throw std::runtime_error{"Property 'definitions.K' missing"};
+    if (!K_node.is_array()) throw std::runtime_error{"Property 'definitions.K' is not an array"};
     auto K = K_node.as_array();
+    if (K->size() == 0) throw std::runtime_error{"Property 'definitions.K' is empty"};
     for (const auto& node : *K) {
         auto input_character = node.as_string()->get();
         automaton.stack_alphabet.push_back(input_character[0]);
@@ -55,7 +58,10 @@ PD_Automaton PD_Automaton::load(const std::string& file) {
 
     Logger::debug_logger->info("Checking property 'Z' (possible states)");   
     auto Z_node = definitions["Z"];
+    if (!Z_node) throw std::runtime_error{"Property 'definitions.Z' missing"};
+    if (!Z_node.is_array()) throw std::runtime_error{"Property 'definitions.Z' is not an array"};
     auto Z = Z_node.as_array();
+    if (Z->size() == 0) throw std::runtime_error{"Property 'definitions.Z' is empty"};
     for (const auto& node : *Z) {
         auto state = node.as_string()->get();
         automaton.states.push_back(state);
@@ -64,23 +70,36 @@ PD_Automaton PD_Automaton::load(const std::string& file) {
 
     Logger::debug_logger->info("Checking property 'F' (accepted states)");
     auto F_node = definitions["F"];
+    if (!F_node) throw std::runtime_error{"Property 'definitions.F' missing"};
+    if (!F_node.is_array()) throw std::runtime_error{"Property 'definitions.F' is not an array"};
     auto F = F_node.as_array();
+    if (F->size() == 0) throw std::runtime_error{"Property 'definitions.F' is empty"};
     for (const auto& node : *F) {
-        auto accepted_state = node.as_string()->get();   
+        auto accepted_state = node.as_string()->get();
+        if (std::find(automaton.states.begin(), automaton.states.end(), accepted_state) == automaton.states.end()) 
+            throw std::runtime_error{"Item of property 'definitions.F' is not a possible state"};   
         automaton.accepted_states.push_back(accepted_state);
     }
     Logger::debug_logger->info("Property 'F' (accepted states) parsed successfully");
 
     Logger::debug_logger->info("Checking property 'z0' (start state)");
     auto z0_node = definitions["z0"];
+    if (!z0_node) throw std::runtime_error{"Property 'definitions.z0' missing"};
+    if (!z0_node.is_string()) throw std::runtime_error{"Property 'definitions.z0' is not a string"};
     auto z0 = z0_node.as_string()->get();
+    if (std::find(automaton.states.begin(), automaton.states.end(), z0) == automaton.states.end())  
+        throw std::runtime_error{"Property 'definitions.z0' is not a possible state"};
     automaton.current_state = z0;
     Logger::debug_logger->info("Property 'z0' (start state) parsed successfully. Value: '{}'", z0);
 
     Logger::debug_logger->info("Checking property 'k0' (initial stack state)");
     auto k0_node = definitions["k0"];
+    if (!k0_node) throw std::runtime_error{"Property 'definitions.k0' missing"};
+    if (!k0_node.is_string()) throw std::runtime_error{"Property 'definitions.k0' is not a string"};
     auto k0 = k0_node.as_string()->get();
     for (const char& c : k0) {
+        if (std::find(automaton.stack_alphabet.begin(), automaton.stack_alphabet.end(), c) == automaton.stack_alphabet.end())
+            throw std::runtime_error{"Property 'definitions.k0' is not an allowed charakter of stack alphabet"};
         automaton.stack_.push(c);
     }
     Logger::debug_logger->info("Property 'k0' (initial stack state) parsed successfully. Value: '{}'", k0);  
