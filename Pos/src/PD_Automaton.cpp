@@ -23,6 +23,8 @@ PD_Automaton PD_Automaton::load(const std::string& file) {
     PD_Automaton automaton;
 
     Logger::debug_logger->info("Checking property 'title'");
+    if (!config["title"]) throw std::runtime_error{"Property 'title' missing"};
+    if (!config["title"].is_string()) throw std::runtime_error{"Property 'title' is not a string"};
     auto title = config["title"].as_string()->get();
     automaton.title = title;
     Logger::debug_logger->info("Property 'title' parsed successfully. Value: '{}'", automaton.title);
@@ -32,7 +34,10 @@ PD_Automaton PD_Automaton::load(const std::string& file) {
 
     Logger::debug_logger->info("Checking property 'E' (input alphabet)");
     auto E_node = definitions["E"];
-    auto E = E_node.as_array(); 
+    if (!E_node) throw std::runtime_error{"Property 'definitions.E' missing"}; 
+    if (!E_node.is_array()) throw std::runtime_error{"Property 'definitions.E' is not an array"};
+    auto E = E_node.as_array();
+    if (E->size() == 0) throw std::runtime_error{"Property 'definitions.E' is empty."};  
     for (const auto& node : *E) {
         auto input_character = node.as_string()->get();
         automaton.input_alphabet.push_back(input_character[0]);
