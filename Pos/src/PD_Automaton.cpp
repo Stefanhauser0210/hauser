@@ -78,7 +78,7 @@ PD_Automaton PD_Automaton::load(const std::string& file) {
     if (!F_node.is_array()) throw std::runtime_error{"Property 'definitions.F' is not an array"};
     auto F = F_node.as_array();
     if (F->size() == 0) throw std::runtime_error{"Property 'definitions.F' is empty"};
-    if (!F->get(0)->is_string() || !F->is_homogeneous()) throw std::runtime_error{"Property 'definitions.F' contains non-strings"};
+    if (!F->get(0)->is_string() || !F->is_homogeneous()) throw std::runtime_error{"Property 'definitions.F' contains elements which are not a string"};
     for (const auto& node : *F) {
         auto accepted_state = node.as_string()->get();
         if (std::find(automaton.states.begin(), automaton.states.end(), accepted_state) == automaton.states.end()) 
@@ -122,7 +122,11 @@ PD_Automaton PD_Automaton::load(const std::string& file) {
 
     Logger::debug_logger->info("Parsing property 'table.transition' (transition table)");
     auto transition_node = (*table)["transition"];
+    if (!transition_node) throw std::runtime_error{"Property 'table.transition' missing"};
+    if (!transition_node.is_array()) throw std::runtime_error{"Property 'table.transition' is not an array"};
     auto transitions = transition_node.as_array();
+    if (transitions->size() == 0) throw std::runtime_error{"Property 'table.transition' is empty"};
+    if (!transitions->get(0)->is_table() || !transitions->is_homogeneous()) throw std::runtime_error{"Property 'table.transition' contains elements which are not a table"};
     Logger::debug_logger->info("Start parsing entry of transition table");
 
     for (const auto& t : *transitions) {
@@ -132,27 +136,52 @@ PD_Automaton PD_Automaton::load(const std::string& file) {
 
         Logger::debug_logger->info("Checking property 'table.transition.z' (current state)");
         auto z_node = (*transition_table)["z"];
+        if (!z_node) throw std::runtime_error{"Property 'table.transition.z' missing"};
+        if (!z_node.is_string()) throw std::runtime_error{"Property 'table.transition.z' is not a string"};
         auto z = z_node.as_string()->get();
+        if (std::find(automaton.states.begin(), automaton.states.end(), z) == automaton.states.end()) 
+            throw std::runtime_error{"Property 'table.transition.z' is not a possible state"};
         Logger::debug_logger->info("Property 'table.transition.z' (current state) parsed successfully");
 
         Logger::debug_logger->info("Checking property 'table.transition.k0' (stack top)");
         auto transition_k0_node = (*transition_table)["k0"];
+        if (!transition_k0_node) throw std::runtime_error{"Property 'table.transition.k0' missing"};
+        if (!transition_k0_node.is_string()) throw std::runtime_error{"Property 'table.transition.k0' is not a string"};
         auto transition_k0 = transition_k0_node.as_string()->get();
+        if (transition_k0.size() != 1) throw std::runtime_error{"Property 'table.transition.k0' is not a character"};
+        if (std::find(automaton.stack_alphabet.begin(), automaton.stack_alphabet.end(), transition_k0[0]) == automaton.stack_alphabet.end()) 
+            throw std::runtime_error{"Property 'table.transition.k0' is not an element of stack alphabet"};
         Logger::debug_logger->info("Property 'table.transition.k0' (stack top) parsed successfully");
 
         Logger::debug_logger->info("Checking property 'table.transition.e' (input token)");
         auto e_node = (*transition_table)["e"];
+        if (!e_node) throw std::runtime_error{"Property 'table.transition.e' missing"};
+        if (!e_node.is_string()) throw std::runtime_error{"Property 'table.transition.e' is not a string"};
         auto e = e_node.as_string()->get();
+        if (e.size() != 1) throw std::runtime_error{"Property 'table.transition.e' is not a character"};
+        if (std::find(automaton.input_alphabet.begin(), automaton.input_alphabet.end(), e[0]) == automaton.input_alphabet.end())
+            throw std::runtime_error{"Property 'table.transition.e' is not an element of input alphabet"};
         Logger::debug_logger->info("Property 'table.transition.e' (input token) parsed successfully");        
 
         Logger::debug_logger->info("Checking property 'table.transition.z_new' (new state) ");
         auto z_new_node = (*transition_table)["z_new"];
+        if (!z_new_node) throw std::runtime_error{"Property 'table.transition.z_new' missing"};
+        if (!z_new_node.is_string()) throw std::runtime_error{"Property 'table.transition.z_new' is not a string"};
         auto z_new = z_new_node.as_string()->get();
+        if (std::find(automaton.states.begin(), automaton.states.end(), z_new) == automaton.states.end())  
+            throw std::runtime_error{"Property 'table.transition.z_new' is not a possible state"};
         Logger::debug_logger->info("Property 'table.transition.z_new' (new state) parsed successfully");
 
         Logger::debug_logger->info("Checking property 'table.transition.k_new' (new stack word)");
         auto k_new_node = (*transition_table)["k_new"];
+        if (!k_new_node) throw std::runtime_error{"Property 'table.transition.k_new' missing"};
+        if (!k_new_node.is_string()) throw std::runtime_error{"Property 'table.transition.k_new' is not a string"};
         auto k_new = k_new_node.as_string()->get();
+        for (const char& k_new_character : k_new) {
+                if (std::find(automaton.stack_alphabet.begin(), automaton.stack_alphabet.end(), k_new_character) == automaton.stack_alphabet.end()) 
+                    throw std::runtime_error{"Property 'table.transition.k_new' is not an element of stack alphabet"};
+            }
+
         Logger::debug_logger->info("Property 'table.transition.k_new' (new stack word) parsed successfully");
 
         Logger::debug_logger->info("Creating transition object and placing it into transition table");
