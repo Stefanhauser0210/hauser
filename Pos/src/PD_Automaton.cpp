@@ -201,8 +201,6 @@ void PD_Automaton::transitionTo(const std::shared_ptr<Transition> transition) {
     current_state = transition->next_state;
     for (const auto& character : transition->write_back) {
         stack_.push(character);
-        std::cout << "Geht auf den Stack:" << character << std::endl;
-        std::cout << "Stack: " << stack_.top() << std::endl;
     }
 }
 

@@ -11,6 +11,7 @@
 
 using namespace std;
 
+
 int main(int argc, char* argv[]) {
     Logger::logger->set_level(spdlog::level::info);
     Logger::debug_logger->set_level(spdlog::level::off);
