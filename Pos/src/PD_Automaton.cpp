@@ -37,7 +37,8 @@ PD_Automaton PD_Automaton::load(const std::string& file) {
     if (!E_node) throw std::runtime_error{"Property 'definitions.E' missing"}; 
     if (!E_node.is_array()) throw std::runtime_error{"Property 'definitions.E' is not an array"};
     auto E = E_node.as_array();
-    if (E->size() == 0) throw std::runtime_error{"Property 'definitions.E' is empty."};  
+    if (E->size() == 0) throw std::runtime_error{"Property 'definitions.E' is empty"};
+    if (!E->get(0)->is_string() || !E->is_homogeneous()) throw std::runtime_error{"Property 'definitions.E' contains elements which are not a string"};  
     for (const auto& node : *E) {
         auto input_character = node.as_string()->get();
         automaton.input_alphabet.push_back(input_character[0]);
@@ -50,8 +51,10 @@ PD_Automaton PD_Automaton::load(const std::string& file) {
     if (!K_node.is_array()) throw std::runtime_error{"Property 'definitions.K' is not an array"};
     auto K = K_node.as_array();
     if (K->size() == 0) throw std::runtime_error{"Property 'definitions.K' is empty"};
+    if (!K->get(0)->is_string() || !K->is_homogeneous()) throw std::runtime_error{"Property 'definitions.K' contains elements which are not a string"};
     for (const auto& node : *K) {
         auto input_character = node.as_string()->get();
+        if (input_character.size() != 1) throw std::runtime_error{"Item of property 'definitions.K' is not a character"};
         automaton.stack_alphabet.push_back(input_character[0]);
     }
     Logger::debug_logger->info("Property 'K' (stack alphabet) parsed successfully");
@@ -62,6 +65,7 @@ PD_Automaton PD_Automaton::load(const std::string& file) {
     if (!Z_node.is_array()) throw std::runtime_error{"Property 'definitions.Z' is not an array"};
     auto Z = Z_node.as_array();
     if (Z->size() == 0) throw std::runtime_error{"Property 'definitions.Z' is empty"};
+    if (!Z->get(0)->is_string() || !Z->is_homogeneous()) throw std::runtime_error{"Property 'definitions.Z' contains elements which are not a string"};
     for (const auto& node : *Z) {
         auto state = node.as_string()->get();
         automaton.states.push_back(state);
@@ -74,6 +78,7 @@ PD_Automaton PD_Automaton::load(const std::string& file) {
     if (!F_node.is_array()) throw std::runtime_error{"Property 'definitions.F' is not an array"};
     auto F = F_node.as_array();
     if (F->size() == 0) throw std::runtime_error{"Property 'definitions.F' is empty"};
+    if (!F->get(0)->is_string() || !F->is_homogeneous()) throw std::runtime_error{"Property 'definitions.F' contains non-strings"};
     for (const auto& node : *F) {
         auto accepted_state = node.as_string()->get();
         if (std::find(automaton.states.begin(), automaton.states.end(), accepted_state) == automaton.states.end()) 
@@ -109,6 +114,8 @@ PD_Automaton PD_Automaton::load(const std::string& file) {
 
 
     auto table_node = config["table"];
+    if (!table_node) throw std::runtime_error{"Property 'table' missing"};
+    if (!table_node.is_table()) throw std::runtime_error{"Property 'table' is not a table"};
     auto table = table_node.as_table();
 
     automaton.transition_table_ = new std::shared_ptr<Transition>[automaton.states.size() * automaton.stack_alphabet.size() * (automaton.input_alphabet.size() + 1)];
