@@ -20,8 +20,7 @@ executable('hauser_pos',
             dependencies: thread_dep)
 
 
-test_src = ['test/test.cpp', 'src/PD_Automaton.cpp', 'src/Logger.cpp',
-'src/main.cpp']
+test_src = ['test/test.cpp', 'src/PD_Automaton.cpp', 'src/Logger.cpp']
 
 test_exe = executable('test_exe',
                        sources: test_src,
