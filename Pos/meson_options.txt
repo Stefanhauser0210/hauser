@@ -10,4 +10,7 @@ option('spdlog_include_dir',
        type: 'string', 
        value: './../../../spdlog-1.x/include')
 
+option('doctest_include_dir', 
+       type: 'string', 
+       value: './../../../doctest-master/doctest')
 
