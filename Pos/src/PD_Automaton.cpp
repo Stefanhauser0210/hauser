@@ -233,12 +233,12 @@ const std::shared_ptr<PD_Automaton::Transition>& PD_Automaton::getTransition(std
 }
 
 void PD_Automaton::transitionTo(const std::shared_ptr<Transition> transition) {
+    stack_.pop();
     Logger::debug_logger->info("Transitioning from {} -> {}, stack word: {}", current_state, transition->next_state, transition->write_back);
     current_state = transition->next_state;
-    for (const auto& character : transition->write_back) {
-        stack_.push(character);
-    }
+   for (auto it{transition->write_back.rbegin()}; it != transition->write_back.rend(); it++) stack_.push(*it);
 }
+ 
 
 bool PD_Automaton::next(char token) {
     auto k0{stack_.top()};
@@ -259,8 +259,6 @@ bool PD_Automaton::next(char token) {
 
         return next(token);
     }
-
-    stack_.pop();
     Logger::debug_logger->info("Transitioning to new state");
     transitionTo(transition);
 

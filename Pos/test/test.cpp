@@ -16,13 +16,13 @@ TEST_CASE("Automaton Page 45 - More 0 then 1"){
     string file{"./../automaton.toml"};
     PD_Automaton automaton{PD_Automaton::load(file)};
 
-    CHECK(automaton.check("11000") == true);
-    CHECK(automaton.check("00011") == true);
-    CHECK(automaton.check("00110") == true);
-    CHECK(automaton.check("10001") == true);
+    CHECK(automaton.check("11000"));
+    CHECK(automaton.check("00011"));
+    CHECK(automaton.check("00110"));
+    CHECK(automaton.check("10001"));
 
-    CHECK(automaton.check("00111") == false);
-    CHECK(automaton.check("11100") == false);
-    CHECK(automaton.check("11001") == false);
-    CHECK(automaton.check("01110") == false);
+    CHECK(!automaton.check("00111"));
+    CHECK(!automaton.check("11100"));
+    CHECK(!automaton.check("11001"));
+    CHECK(!automaton.check("01110"));
 }
