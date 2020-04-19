@@ -13,7 +13,8 @@ using namespace std;
 
 
 int main(int argc, char* argv[]) {
-    Logger::logger->set_level(spdlog::level::info);
+
+    Logger::logger->set_level(spdlog::level::off);
     Logger::debug_logger->set_level(spdlog::level::off);
 
     CLI::App app("automata");
@@ -24,21 +25,21 @@ int main(int argc, char* argv[]) {
     string file{"./../automaton.toml"};
     app.add_option("-f, --file", file, "Automata file", true);
 
-    bool debug{};
+    bool debug{false};
     app.add_flag("-d", debug, "debug"); 
 
-    bool verbose{};
+    bool verbose{false};
     app.add_flag("-v", verbose, "verbose");
 
+    CLI11_PARSE(app, argc, argv);
+
     if (debug){
-        Logger::debug_logger->set_level(spdlog::level::trace);
+        Logger::debug_logger->set_level(spdlog::level::info);
     }
 
     if (verbose){
-        Logger::logger->set_level(spdlog::level::trace);
+        Logger::logger->set_level(spdlog::level::info); 
     }
-
-    CLI11_PARSE(app, argc, argv);
 
    Logger::logger->info("Parsing file {}", file);
    PD_Automaton automaton{PD_Automaton::load(file)};
