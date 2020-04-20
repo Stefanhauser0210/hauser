@@ -1,0 +1,93 @@
+title = "Kellerautomat"
+
+[definitions]
+z0 = "A"             
+E = ["0", "1", "$"]       
+F = ["C"]            
+K = ["_", "0", "1"]  
+Z = ["A", "B", "C"]       
+k0 = "_"             
+
+[[table.transition]]
+z = "A"
+k0 = "_"
+e = "0"
+z_new = "A"
+k_new = "0_"
+
+[[table.transition]]
+z = "A"
+k0 = "_"
+e = "1"
+z_new = "A"
+k_new = "1_"
+
+[[table.transition]]
+z = "A"
+k0 = "1"
+e = "0"
+z_new = "A"
+k_new = "01"
+
+[[table.transition]]
+z = "A"
+k0 = "1"
+e = "1"
+z_new = "A"
+k_new = "11"
+
+[[table.transition]]
+z = "A"
+k0 = "0"
+e = "0"
+z_new = "A"
+k_new = "00"
+
+[[table.transition]]
+z = "A"
+k0 = "0"
+e = "1"
+z_new = "A"
+k_new = "10"
+
+[[table.transition]]
+z = "A"
+k0 = "_"
+e = "$"
+z_new = "B"
+k_new = "_"
+
+[[table.transition]]
+z = "A"
+k0 = "0"
+e = "$"
+z_new = "B"
+k_new = "0"
+
+[[table.transition]]
+z = "A"
+k0 = "1"
+e = "$"
+z_new = "B"
+k_new = "1"
+
+[[table.transition]]
+z = "B"
+k0 = "0"
+e = "0"
+z_new = "B"
+k_new = ""
+
+[[table.transition]]
+z = "B"
+k0 = "1"
+e = "1"
+z_new = "B"
+k_new = ""
+
+[[table.transition]]
+z = "B"
+k0 = "_"
+e = ""
+z_new = "C"
+k_new = "_"
