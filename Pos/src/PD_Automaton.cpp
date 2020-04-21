@@ -190,7 +190,7 @@ PD_Automaton PD_Automaton::load(const std::string& file) {
         Logger::debug_logger->info("Property 'table.transition.k_new' (new stack word) parsed successfully");
 
         Logger::debug_logger->info("Creating transition object and placing it into transition table");
-        auto transition_index{automaton.transitionTableIndex(z, transition_k0[0], e[0])};
+        auto transition_index{automaton.transitionTableIndex(z, transition_k0[0], e.size() == 1 ? e[0] : 0)};
         automaton.transition_table_[transition_index] = std::make_shared<Transition>(z_new, k_new);
         
     }
@@ -274,9 +274,13 @@ bool PD_Automaton::check(const std::string& word) {
     bool accepted{true};
     for (const auto& token : word) {
         Logger::debug_logger->info("Current state: {}", current_state);
+        Logger::debug_logger->info("Current token: {}", token);
         if (!(accepted = next(token)))
             break;
     }
+
+     while (std::find(accepted_states.begin(), accepted_states.end(), current_state) == accepted_states.end() && accepted)
+        accepted = next(0);
 
     accepted = accepted && (std::find(accepted_states.begin(), accepted_states.end(), current_state) != accepted_states.end());
 

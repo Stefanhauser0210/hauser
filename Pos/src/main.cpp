@@ -42,6 +42,8 @@ int main(int argc, char* argv[]) {
     }
 
    Logger::logger->info("Parsing file {}", file);
+
+   try {
    PD_Automaton automaton{PD_Automaton::load(file)};
 
     bool accepted{automaton.check(input)};
@@ -53,4 +55,12 @@ int main(int argc, char* argv[]) {
     }
 
     Logger::logger->info("Input has been {}", accepted ? "accepted" : "rejected");
+
+    return 0;
+
+   } catch (std::runtime_error& e){
+       Logger::logger->error(e.what());
+       return 1;
+   }
+   return 0;
 }
