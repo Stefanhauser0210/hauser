@@ -158,9 +158,14 @@ PD_Automaton PD_Automaton::load(const std::string& file) {
         if (!e_node) throw std::runtime_error{"Property 'table.transition.e' missing"};
         if (!e_node.is_string()) throw std::runtime_error{"Property 'table.transition.e' is not a string"};
         auto e = e_node.as_string()->get();
-        if (e.size() != 1) throw std::runtime_error{"Property 'table.transition.e' is not a character"};
-        if (std::find(automaton.input_alphabet.begin(), automaton.input_alphabet.end(), e[0]) == automaton.input_alphabet.end())
-            throw std::runtime_error{"Property 'table.transition.e' is not an element of input alphabet"};
+        if (e.size() > 1) {
+            throw std::runtime_error{"Property 'table.transition.e' is not a character or empty"};
+        }
+        else if (e.size() == 1) {
+                if (std::find(automaton.input_alphabet.begin(), automaton.input_alphabet.end(), e[0]) == automaton.input_alphabet.end()){
+                    throw std::runtime_error{"Property 'table.transition.e' is not an element of input alphabet"};
+                }
+            }
         Logger::debug_logger->info("Property 'table.transition.e' (input token) parsed successfully");        
 
         Logger::debug_logger->info("Checking property 'table.transition.z_new' (new state) ");
