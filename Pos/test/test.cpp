@@ -14,22 +14,38 @@ TEST_CASE("Automaton Page 45 - More 0 then 1"){
     Logger::debug_logger->set_level(spdlog::level::off);
 
     string file{"./../automaton.toml"};
-    PD_Automaton automaton1{PD_Automaton::load(file)};
-    PD_Automaton automaton2{PD_Automaton::load(file)};
-    PD_Automaton automaton3{PD_Automaton::load(file)};
-    PD_Automaton automaton4{PD_Automaton::load(file)};
-    PD_Automaton automaton5{PD_Automaton::load(file)};
-    PD_Automaton automaton6{PD_Automaton::load(file)};
-    PD_Automaton automaton7{PD_Automaton::load(file)};
-    PD_Automaton automaton8{PD_Automaton::load(file)};
+    PD_Automaton automaton{PD_Automaton::load(file)};
     
-    CHECK(automaton1.check("11000"));
-    CHECK(automaton2.check("00011"));
-    CHECK(automaton3.check("00110"));
-    CHECK(automaton4.check("10001"));
+    SUBCASE("Test dependency of begin and end of the word: begin:1, end:0 - accepted"){
+        CHECK(automaton.check("11000"));
+    }
 
-    CHECK(!automaton5.check("00111"));
-    CHECK(!automaton6.check("11100"));
-    CHECK(!automaton7.check("11001"));
-    CHECK(!automaton8.check("01110"));
+    SUBCASE("Test dependency of begin and end of the word: begin:0, end:1 - accepted"){
+        CHECK(automaton.check("00011"));
+    }
+
+    SUBCASE("Test dependency of begin and end of the word: begin:0, end:0 - accepted"){
+        CHECK(automaton.check("00110"));
+    }
+
+    SUBCASE("Test dependency of begin and end of the word: begin:1, end:1 - accepted"){
+        CHECK(automaton.check("10001"));
+    }
+   
+    SUBCASE("Test dependency of begin and end of the word: begin:1, end:0 - rejected"){
+        CHECK(!automaton.check("11100"));
+    }
+
+    SUBCASE("Test dependency of begin and end of the word: begin:0, end:1 - rejected"){
+        CHECK(!automaton.check("00111"));
+    }
+
+    SUBCASE("Test dependency of begin and end of the word: begin:0, end:0 - rejected"){
+        CHECK(!automaton.check("01110"));
+    }
+
+    SUBCASE("Test dependency of begin and end of the word: begin:1, end:1 - rejected"){
+        CHECK(!automaton.check("11001"));
+    }      
+
 }
