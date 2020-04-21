@@ -1,4 +1,4 @@
-project('hauser_pos', 'cpp',
+project('pda', 'cpp',
          default_options: ['cpp_std=c++17', 'warning_level=3', 'werror=true'])
 
 
@@ -14,7 +14,7 @@ src = ['src/main.cpp', 'src/PD_Automaton.cpp', 'src/Logger.cpp']
 thread_dep = dependency('threads')
 
 
-executable('hauser_pos',
+executable('pda',
             sources: src,
             include_directories: inc_dir,
             dependencies: thread_dep)

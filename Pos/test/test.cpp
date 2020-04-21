@@ -8,6 +8,26 @@
 
 using namespace std;
 
+TEST_CASE("Automaton Page 45 - More 0 then 1: length 0 and 1"){
+    Logger::logger->set_level(spdlog::level::off);
+    Logger::debug_logger->set_level(spdlog::level::off);
+
+    string file{"./../automaton.toml"};
+    PD_Automaton automaton{PD_Automaton::load(file)};
+    
+    SUBCASE("length: 0 chars"){
+        CHECK(!automaton.check(""));
+    }
+
+    SUBCASE("length: 0 chars - accepted"){
+        CHECK(automaton.check("0"));
+    }
+
+    SUBCASE("length: 0 chars - rejected"){
+        CHECK(!automaton.check("1"));
+    }
+}
+
 TEST_CASE("Automaton Page 45 - More 0 then 1: length: 3"){
     Logger::logger->set_level(spdlog::level::off);
     Logger::debug_logger->set_level(spdlog::level::off);
@@ -155,3 +175,31 @@ TEST_CASE("Automaton Page 45 - More 0 then 1: same number of 0 and 1"){
     }
 
 }
+
+TEST_CASE("Automaton Page 45 - More 0 then 1: invalid char"){
+    Logger::logger->set_level(spdlog::level::off);
+    Logger::debug_logger->set_level(spdlog::level::off);
+
+    string file{"./../automaton.toml"};
+    PD_Automaton automaton{PD_Automaton::load(file)};
+    
+    SUBCASE("length: 1 chars"){
+        CHECK(!automaton.check("a"));
+    }
+
+    SUBCASE("length: 5 chars, error at begin"){
+        CHECK(!automaton.check("a0010"));
+    }
+
+    SUBCASE("length: 4 chars, error in the middle"){
+        CHECK(!automaton.check("00a0"));
+    }
+
+    SUBCASE("length: 6 chars, error at the end"){
+        CHECK(!automaton.check("10010a"));
+    }
+
+}
+
+
+
