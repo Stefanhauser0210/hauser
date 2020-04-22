@@ -34,11 +34,11 @@ int main(int argc, char* argv[]) {
     CLI11_PARSE(app, argc, argv);
 
     if (debug){
-        Logger::debug_logger->set_level(spdlog::level::info);
+        Logger::debug_logger->set_level(spdlog::level::trace);
     }
 
     if (verbose){
-        Logger::logger->set_level(spdlog::level::info); 
+        Logger::logger->set_level(spdlog::level::trace); 
     }
 
    Logger::logger->info("Parsing file {}", file);
