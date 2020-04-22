@@ -1,0 +1,18 @@
+#toml-file to test errors - in this case no title
+
+[definitions]
+z0 = "A"             
+E = ["0", "1", "$"]       
+F = ["C"]            
+K = ["_", "0", "1"]  
+Z = ["A", "B", "C"]       
+k0 = "_"             
+
+[[table.transition]]
+z = "A"
+k0 = "_"
+e = "0"
+z_new = "A"
+k_new = "0_"
+
+

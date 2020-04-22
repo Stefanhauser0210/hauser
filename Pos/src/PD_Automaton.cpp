@@ -18,7 +18,15 @@ PD_Automaton::~PD_Automaton() {
 
 
 PD_Automaton PD_Automaton::load(const std::string& file) {
+
+    try {
+        toml::parse_file(file);
+    } catch (...){
+        throw "File not found";
+    }
+
     toml::table config = toml::parse_file(file);
+
 
     PD_Automaton automaton;
 
@@ -199,9 +207,8 @@ PD_Automaton PD_Automaton::load(const std::string& file) {
         Logger::debug_logger->debug("Parsing successfull");
    
     return automaton;
+    }
 
-
-}
 
 size_t PD_Automaton::transitionTableIndex(std::string current_state, char stack_token, char input_token) const {
     Logger::debug_logger->debug("Calculating transition table index for: z = '{}', k0 = '{}', e = '{}'", current_state, stack_token, input_token);

@@ -380,9 +380,20 @@ TEST_CASE("Automaton page 50 - Input word mirrored: errors"){
         CHECK(!automaton.check("1a$a1"));
     }
 
-        SUBCASE("length: 4, missing $"){
+    SUBCASE("length: 4, missing $"){
         CHECK(!automaton.check("0110"));
     }
+}
+
+TEST_CASE("errors"){
+    Logger::logger->set_level(spdlog::level::off);
+    Logger::debug_logger->set_level(spdlog::level::off);
+
+    CHECK_THROWS(PD_Automaton::load("no")); //test for file not found
+
+    CHECK_THROWS(PD_Automaton::load("./../error.toml")); //test for invalid toml file
+
+
 }
 
 
