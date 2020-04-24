@@ -391,9 +391,6 @@ TEST_CASE("errors"){
 
     CHECK_THROWS(PD_Automaton::load("no")); //test for file not found
 
-    CHECK_THROWS(PD_Automaton::load("./../error.toml")); //test for invalid toml file
-
-
 }
 
 

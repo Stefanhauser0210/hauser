@@ -17,9 +17,6 @@ PD_Automaton::~PD_Automaton()
 
 PD_Automaton PD_Automaton::load(const std::string &file)
 {
-
-    toml::parse_file(file);
-
     toml::table config = toml::parse_file(file);
 
     PD_Automaton automaton;

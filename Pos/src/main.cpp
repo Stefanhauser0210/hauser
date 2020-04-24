@@ -60,6 +60,7 @@ int main(int argc, char* argv[]) {
 
    } catch (std::runtime_error& e){
        Logger::logger->error(e.what());
+       cout << ("Error eccured. Did you use the correct file?") << endl;
        return 1;
    }
    return 0;

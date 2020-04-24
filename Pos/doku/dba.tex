@@ -9,7 +9,7 @@
 \begin{document}
 \begin{titlepage}
 \centering
-\title{DBA}
+\title{PDA}
 \author{Stefan Hauser}
 \vfill
 \end{titlepage}
@@ -19,8 +19,8 @@
 \newpage
 
 \section{Einleitung}
-\subsection{Was ist DBA?}
-DBA ist eine C++-Konsolenapplikation, welche als tabellenbasierter Kellerautomat fungiert und somit die Gültigkeit eines Eingabewortes evaluiert. Die Struktur des Kellerautomaten wird dabei aus einer TOML-Datei geladen.
+\subsection{Was ist PDA?}
+PDA ist eine C++-Konsolenapplikation, welche als tabellenbasierter Kellerautomat fungiert und somit die Gültigkeit eines Eingabewortes evaluiert. Die Struktur des Kellerautomaten wird dabei aus einer TOML-Datei geladen.
 \subsection{Was ist TOML?}
 Das für den Datenaustausch erstellte Dateformat TOML legt vor allem Wert auf gute Lesbarkeit und soll sich auch leicht parsen lassen. TOML bietet dabei die Möglichkeit, sich in eine Zuordnungstabelle, auch assoziatives Datenfeld genannt, umwandeln zu lassen. Das heißt, dass die Schlüssel für die Zuordnung der Elemente nicht numerisch sein muss, der Schlüssel kann beispielsweise auch ein String sein.
 \\
@@ -56,11 +56,11 @@ k_new = "_"
 Die Logger sollen in main.cpp aktiviert werden können und im Automaten selbst die Schritte tracken. Dies habe ich so gelöst, dass ich ein eigenes Logger-Modul geschrieben habe, in welchem sich shared pointer auf Logger-Objekte befinden.
 \\
 Die einzelnen Logger sind in Logger.cpp definiert:
-\begin{lstlisting}
+\begin{lstlisting}[language=C++]
 const std::shared_ptr<spdlog::logger> Logger::logger = 
-spdlog::stdout_color_st("atomaton_logger");
+	spdlog::stdout_color_st("atomaton_logger");
 const std::shared_ptr<spdlog::logger> Logger::debug_logger = 
-spdlog::stderr_color_st("atomaton_debug");
+	spdlog::stderr_color_st("atomaton_debug");
 \end{lstlisting}
 
 \subsection{Auswerten der Kommandozeilenparameter}
@@ -76,7 +76,7 @@ Durch die Angabe von -d werden die einzelnen Schritte des Automaten für Debug-Z
 Durch die Angabe von -v werden die Transitions ausgegeben, um so zu beobachten, wie der Automat zu seinem Ergebnis kommt.
 
 \subsection{Parsen des TOML-File und befüllen des Automaten}
-Das Einlesen und Parsen der TOML-Datei sowie das Befüllen der Attribute des Automaten erfolgt in der Funktion load, welche sich die TOML-Datei beziehungsweise den Pfad der TOML-Datei in Form eines Strings als Parameter erwartet. Die Funktion beginnt mit einem try-catch-Block, in welcher nur die TOML++ - Funktion parsefile mit dem vom Nutzer angegebenen String der TOML-Datei aufgerufen wird. Dadurch kann ich reagieren, falls die angegebene Datei nicht gefunden werden kann.
+Das Einlesen und Parsen der TOML-Datei sowie das Befüllen der Attribute des Automaten erfolgt in der Funktion load, welche sich die TOML-Datei beziehungsweise den Pfad der TOML-Datei in Form eines Strings als Parameter erwartet.
 \\
 \medskip
 Wird die Datei gefunden, wird ihr Inhalt als toml table in der Variablen config gespeichert. Des Weiteren wird ein Automaten-Objekt erstellt, dessen Attribute werden im nächsten Schritt aus config befüllt.
@@ -85,16 +85,15 @@ Wird die Datei gefunden, wird ihr Inhalt als toml table in der Variablen config 
 Auf die Elemente des Table, in TOML++ genannt Knoten, kann direkt zugegriffen werden. Der Inhalt des Tables definitions wird in einer eigenen Variable gespeichert, auch auf dessen Inhalt kann wieder direkt zugegriffen werden. Somit können die Werte aus der TOML-Datei gelesen, überprüft und - falls korrekt - in den Automaten geladen werden.
 \\
 Auschnitt wie durch die Transitions iteriert wird:
-\begin{lstlisting}
- auto transition_node = (*table)["transition"];
- auto transitions = transition_node.as_array();
+\begin{lstlisting}[language=C++]
+auto transition_node = (*table)["transition"];
+auto transitions = transition_node.as_array();
 
- for (const auto& t : *transitions) {
+for (const auto& t : *transitions) {
 
  	auto transition_table = t.as_table();
 
 	auto z_node = (*transition_table)["z"];
-
 	....
 }
 
@@ -103,26 +102,26 @@ Auschnitt wie durch die Transitions iteriert wird:
 Etwas komplizierter ist es bei den Transitions, da diese vereinfacht gesagt Table in einem Table sind und nicht direkt auf diese zugegriffen werden kann. Daher musste ich den Knoten zu einem Array machen und durch diesen iterieren. Ist das Parsen der Transition fertig wird ihr Index im Transition Table festgelegt und sie wird unter diesem darin gespeichert.
 \\
 Die Berrechnung des Transition-Index erfolgt so:
-\begin{lstlisting}
+\begin{lstlisting}[language=C++]
 auto state_index_it{std::find(states.begin(), 
-states.end(), current_state)};
+	states.end(), current_state)};
 auto state_index{std::distance(states.begin(), 
-state_index_it)};
-
+	state_index_it)};
+	
 auto stack_character_index_it{std::find(stack_alphabet.begin(), 
-stack_alphabet.end(), stack_token)};
+	stack_alphabet.end(), stack_token)};
 auto stack_character_index{std::distance(stack_alphabet.begin(), 
-stack_character_index_it)};
-
+	stack_character_index_it)};
+	
 auto input_character_index_it{std::find(input_alphabet.begin(), 
-input_alphabet.end(), input_token)};
+	input_alphabet.end(), input_token)};
 auto input_character_index = std::distance(input_alphabet.begin(), 
-input_character_index_it);
-
- size_t row{state_index * stack_alphabet.size() + 
-stack_character_index};
- size_t index{row * (input_alphabet.size() + 1) + 
-input_character_index};
+	input_character_index_it);
+	
+size_t row{state_index * stack_alphabet.size() + 
+	stack_character_index};
+size_t index{row * (input_alphabet.size() + 1) + 
+	input_character_index};
 \end{lstlisting}
 \medskip
 Sollte bei einem Element ein Fehler auftreten wird ein Fehler geworfen, andernfalls wird der fertige Automat zurückgeliefert.
@@ -132,7 +131,7 @@ Ob die Eingabe akzeptiert wird oder nicht wird in der Funktion check bestimmt, w
 \\
 Die Check-Funktion:
 
-\begin{lstlisting}
+\begin{lstlisting}[language=C++]
 bool PD_Automaton::check(const std::string& word) {
     bool accepted{true};
     for (const auto& token : word) {
@@ -141,8 +140,8 @@ bool PD_Automaton::check(const std::string& word) {
     }
 
      while (std::find(accepted_states.begin(), accepted_states.end(), current_state) 
-== accepted_states.end() && accepted)
-        accepted = next(0);
+	== accepted_states.end() && accepted)
+        	accepted = next(0);
 
     accepted = accepted && (std::find(accepted_states.begin(), 
     accepted_states.end(), current_state) != accepted_states.end());
